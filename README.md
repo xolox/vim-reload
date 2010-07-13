@@ -16,7 +16,9 @@ The [reload.vim][reload] plug-in automatically reloads various types of [Vim][vi
 
 Note that [vimrc scripts][vimrc] are not reloaded because that seems to cause more trouble than it's worth...
 
-## Usage
+## Install & first use
+
+Unzip the most recent [ZIP archive](http://peterodding.com/code/vim/downloads/reload) file inside your Vim profile directory (usually this is `~/.vim` on UNIX and `%USERPROFILE%\vimfiles` on Windows), restart Vim and try it out: Edit any Vim script that's already loaded and check that the script is reloaded when you save it (the reload.vim plug-in will print a message to confirm when a script is reloaded).
 
 Out of the box the [reload.vim][reload] plug-in is configured to automatically reload all Vim scripts that it knows how to. If you like it this way then you don't need to configure anything! However if you don't like the automatic reloading then you'll need the following:
 
@@ -40,7 +42,7 @@ If after executing this command you see Vim errors such as "Function already exi
 
 If you want your Vim plug-ins and/or other scripts to be automatically reloaded they'll have to be written a certain way, though you can consider the following points good practice for Vim script writing anyway:
 
-### Use a bang in command/function definitions!
+### Use a bang in command and function definitions!
 
 Function and command definitions using Vim's [:command](http://vimdoc.sourceforge.net/htmldoc/map.html#:command) and [:function](http://vimdoc.sourceforge.net/htmldoc/eval.html#:function) built-ins should include a [bang (!)](http://vimdoc.sourceforge.net/htmldoc/map.html#:command-bang) symbol, otherwise Vim will complain that the command or function already exists:
 
@@ -82,7 +84,7 @@ The [ReloadScript](http://www.vim.org/scripts/script.php?script_id=1904) plug-in
 
 ## Contact
 
-If you have questions, bug reports, suggestions, etc. the author can be contacted at <peter@peterodding.com>. The latest version is available at <http://peterodding.com/code/vim/reload/> and <http://github.com/xolox/vim-reload>.
+If you have questions, bug reports, suggestions, etc. the author can be contacted at <peter@peterodding.com>. The latest version is available at <http://peterodding.com/code/vim/reload/> and <http://github.com/xolox/vim-reload>. If you like the plug-in please vote for it on [www.vim.org](http://www.vim.org/scripts/script.php?script_id=3148).
 
 ## License
 
