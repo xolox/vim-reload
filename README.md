@@ -1,0 +1,97 @@
+# Automatic reloading of Vim scripts
+
+The [reload.vim][reload] plug-in automatically reloads various types of [Vim][vim] scripts as they're being edited in Vim to give you instant feedback on the changes you make. For example while writing a Vim syntax script you can open a split window of the relevant file type and every time you [:update][update] your syntax script, [reload.vim][reload] will refresh the syntax highlighting in the split window. Automatic reloading of Vim scripts is currently supported for the following types of scripts:
+
+ * [Standard plug-ins](http://vimdoc.sourceforge.net/htmldoc/usr_05.html#standard-plugin) located at `~/.vim/plugin/*.vim` on UNIX, `~\_vimfiles\plugin\*.vim` on Windows;
+
+ * [Auto-load scripts](http://vimdoc.sourceforge.net/htmldoc/eval.html#autoload) located at `~/.vim/autoload/*.vim` on UNIX, `~\_vimfiles\autoload\*.vim` on Windows;
+
+ * [File-type plug-ins](http://vimdoc.sourceforge.net/htmldoc/filetype.html#filetype-plugins) located at `~/.vim/ftplugin/*.vim` on UNIX, `~\_vimfiles\ftplugin\*.vim` on Windows;
+
+ * [Syntax highlighting scripts](http://vimdoc.sourceforge.net/htmldoc/syntax.html#syntax-highlighting) located at `~/.vim/syntax/*.vim` on UNIX, `~\_vimfiles\syntax\*.vim` on Windows;
+
+ * [File-type indentation plug-ins](http://vimdoc.sourceforge.net/htmldoc/usr_30.html#30.3) located at `~/.vim/indent/*.vim` on UNIX, `~\_vimfiles\indent\*.vim` on Windows;
+
+ * [Color scheme scripts](http://vimdoc.sourceforge.net/htmldoc/syntax.html#:colorscheme) located at `~/.vim/colors/*.vim` on UNIX, `~\_vimfiles\colors\*.vim` on Windows.
+
+Note that [vimrc scripts][vimrc] are not reloaded because that seems to cause more trouble than it's worth...
+
+## Usage
+
+Out of the box the [reload.vim][reload] plug-in is configured to automatically reload all Vim scripts that it knows how to. If you like it this way then you don't need to configure anything! However if you don't like the automatic reloading then you'll need the following:
+
+### The `g:reload_on_write` option
+
+If you don't like automatic reloading because it slows Vim down or causes problems you can add the following line to your [vimrc script][vimrc]:
+
+    let g:reload_on_write = 0
+
+This disables automatic reloading which means you'll have to reload scripts using the command discussed below.
+
+### The `:ReloadScript` command
+
+You can execute the `:ReloadScript` command to reload the Vim script you're editing. If you provide a script name as argument to the command then that script will be reloaded instead, e.g.:
+
+    :ReloadScript ~/.vim/plugin/reload.vim
+
+If after executing this command you see Vim errors such as "Function already exists" ([E122](http://vimdoc.sourceforge.net/htmldoc/eval.html#E122)) or "Command already exists" ([E174](http://vimdoc.sourceforge.net/htmldoc/map.html#E174)) then you'll need to change your Vim script(s) slightly to enable reloading, see below.
+
+## Things that prevent reloading
+
+If you want your Vim plug-ins and/or other scripts to be automatically reloaded they'll have to be written a certain way, though you can consider the following points good practice for Vim script writing anyway:
+
+### Use a bang in command/function definitions!
+
+Function and command definitions using Vim's [:command](http://vimdoc.sourceforge.net/htmldoc/map.html#:command) and [:function](http://vimdoc.sourceforge.net/htmldoc/eval.html#:function) built-ins should include a [bang (!)](http://vimdoc.sourceforge.net/htmldoc/map.html#:command-bang) symbol, otherwise Vim will complain that the command or function already exists:
+
+    " Bad:
+    :command MyCmd call MyFun()
+    :function MyFun()
+    :endfunction
+    
+    " Good:
+    :command! MyCmd call MyFun()
+    :function! MyFun()
+    :endfunction
+
+### Use automatic command groups
+
+Automatic commands using Vim's [:autocmd][autocmd] built-in should be defined inside of an [automatic command group](http://vimdoc.sourceforge.net/htmldoc/autocmd.html#:augroup) that's cleared so the automatic commands don't stack indefinitely when your [:autocmd][autocmd] commands are executed several times:
+
+    " Bad example: If the following line were re-evaluated, the message would
+    " appear multiple times the next time the automatic command fires:
+    :autocmd TabEnter * echomsg "Entered tab page"
+    
+    " Good example: The following three lines can be reloaded without the
+    " message appearing multiple times:
+    :augroup MyPlugin
+    :  autocmd! TabEnter * echomsg "Entered tab page"
+    :augroup END
+
+## Alternatives
+
+The [ReloadScript](http://www.vim.org/scripts/script.php?script_id=1904) plug-in on [www.vim.org][vim] also supports reloading of Vim scripts, but there are a few notable differences:
+
+ * This plug-in focuses on automatic reloading (I'm lazy) while the other one requires manual reloading;
+
+ * This plug-in doesn't clear inclusion guard variables while the other one does;
+
+ * This plug-in will *never* [:source](http://vimdoc.sourceforge.net/htmldoc/repeat.html#:source) a file that hasn't already been loaded by Vim -- it checks using Vim's [:scriptnames](http://vimdoc.sourceforge.net/htmldoc/repeat.html#:scriptnames) command;
+
+ * This plug-in can more or less reload itself ;-)
+
+## Contact
+
+If you have questions, bug reports, suggestions, etc. the author can be contacted at <peter@peterodding.com>. The latest version is available at <http://peterodding.com/code/vim/reload/> and <http://github.com/xolox/vim-reload>.
+
+## License
+
+This software is licensed under the [MIT license](http://en.wikipedia.org/wiki/MIT_License).  
+© 2010 Peter Odding &lt;<peter@peterodding.com>&gt;.
+
+
+[autocmd]: http://vimdoc.sourceforge.net/htmldoc/autocmd.html#:autocmd
+[reload]: http://github.com/xolox/vim-reload/blob/master/reload.vim
+[update]: http://vimdoc.sourceforge.net/htmldoc/editing.html#:update
+[vim]: http://www.vim.org/
+[vimrc]: http://vimdoc.sourceforge.net/htmldoc/starting.html#vimrc
