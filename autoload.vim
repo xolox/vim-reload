@@ -1,5 +1,5 @@
 " Vim script
-" Last Change: July 13, 2010
+" Last Change: July 15, 2010
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 
@@ -52,6 +52,11 @@ endif
 
 function! s:reload_plugin(start_time, filename, friendly_name) " {{{1
   call s:reload_message('plug-in', a:friendly_name)
+  " Clear include guard so full plug-in can be reloaded?
+  let variable = 'g:loaded_' . fnamemodify(a:filename, ':t:r')
+  if exists(variable)
+    execute 'unlet' variable
+  endif
   execute 'source' fnameescape(a:filename)
   let msg = "%s: Reloaded %s plug-in in %s."
   call xolox#timer#stop(msg, s:script, a:friendly_name, a:start_time)

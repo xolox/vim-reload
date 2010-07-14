@@ -1,9 +1,9 @@
 " Vim script
-" Last Change: July 13, 2010
+" Last Change: July 15, 2010
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 " License: MIT
-" Version: 0.3
+" Version: 0.4
 
 " Support for automatic update using the GLVS plug-in.
 " GetLatestVimScripts: 3148 1 :AutoInstall: reload.zip

@@ -18,7 +18,7 @@ Note that [vimrc scripts][vimrc] are not reloaded because that seems to cause mo
 
 ## Install & first use
 
-Unzip the most recent [ZIP archive](http://peterodding.com/code/vim/downloads/reload) file inside your Vim profile directory (usually this is `~/.vim` on UNIX and `%USERPROFILE%\vimfiles` on Windows), restart Vim and try it out: Edit any Vim script that's already loaded and check that the script is reloaded when you save it (the reload.vim plug-in will print a message to confirm when a script is reloaded).
+Unzip the most recent [ZIP archive](http://peterodding.com/code/vim/downloads/reload) file inside your Vim profile directory (usually this is `~/.vim` on UNIX and `%USERPROFILE%\vimfiles` on Windows), restart Vim and execute the command `:helptags ~/.vim/doc` (use `:helptags ~\vimfiles\doc` instead on Windows). Now try it out: Edit any Vim script that's already loaded (you can check using the [:scriptnames command][scriptnames]) and confirm that the script is reloaded when you save it (the reload.vim plug-in will print a message to confirm when a script is reloaded).
 
 Out of the box the [reload.vim][reload] plug-in is configured to automatically reload all Vim scripts that it knows how to. If you like it this way then you don't need to configure anything! However if you don't like the automatic reloading then you'll need the following:
 
@@ -76,9 +76,7 @@ The [ReloadScript](http://www.vim.org/scripts/script.php?script_id=1904) plug-in
 
  * This plug-in focuses on automatic reloading (I'm lazy) while the other one requires manual reloading;
 
- * This plug-in doesn't clear inclusion guard variables while the other one does;
-
- * This plug-in will *never* [:source](http://vimdoc.sourceforge.net/htmldoc/repeat.html#:source) a file that hasn't already been loaded by Vim -- it checks using Vim's [:scriptnames](http://vimdoc.sourceforge.net/htmldoc/repeat.html#:scriptnames) command;
+ * This plug-in will *never* [:source](http://vimdoc.sourceforge.net/htmldoc/repeat.html#:source) a file that hasn't already been loaded by Vim -- it checks using Vim's [:scriptnames][scriptnames] command;
 
  * This plug-in can more or less reload itself ;-)
 
@@ -94,6 +92,7 @@ This software is licensed under the [MIT license](http://en.wikipedia.org/wiki/M
 
 [autocmd]: http://vimdoc.sourceforge.net/htmldoc/autocmd.html#:autocmd
 [reload]: http://github.com/xolox/vim-reload/blob/master/reload.vim
+[scriptnames]: http://vimdoc.sourceforge.net/htmldoc/repeat.html#:scriptnames
 [update]: http://vimdoc.sourceforge.net/htmldoc/editing.html#:update
 [vim]: http://www.vim.org/
 [vimrc]: http://vimdoc.sourceforge.net/htmldoc/starting.html#vimrc
