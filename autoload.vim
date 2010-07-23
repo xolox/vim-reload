@@ -42,7 +42,11 @@ if !exists('s:reload_script_active')
       for [callback, pattern] in s:scripttypes
         if filename =~ pattern
           let args = [start_time, filename, fnamemodify(filename, ':~')]
-          call call('xolox#timer#stop', call(callback, args))
+          let result = call(callback, args)
+          if type(result) == type([])
+            call call('xolox#timer#stop', result)
+          endif
+          unlet result
         endif
       endfor
     endif
