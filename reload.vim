@@ -1,5 +1,5 @@
 " Vim script
-" Last Change: July 15, 2010
+" Last Change: July 23, 2010
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 " License: MIT
@@ -16,7 +16,9 @@ command! -bar -nargs=? -complete=file ReloadScript call s:ReloadCmd(<q-args>)
 
 augroup PluginReloadScripts
   autocmd!
-  autocmd BufWritePost *.vim call s:AutoReload()
+  autocmd BufWritePost *.vim nested call s:AutoReload()
+  " The nested keyword is so that SwapExists isn't ignored!
+  autocmd SwapExists * call xolox#reload#open_readonly()
   autocmd TabEnter * call xolox#reload#windows()
 augroup END
 

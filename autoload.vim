@@ -1,5 +1,5 @@
 " Vim script
-" Last Change: July 15, 2010
+" Last Change: July 23, 2010
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 
@@ -71,43 +71,42 @@ if !exists('s:reload_script_active')
   endfunction
 endif
 
-function! s:reload_ftplugin(start_time, filename, friendly_name) " {{{1
-  let type = fnamemodify(a:filename, ':t:r')
-  let view = s:save_view()
-  call s:change_swapchoice(1)
-  call s:reload_message('file type plug-in', a:friendly_name)
-  silent hide bufdo if &ft == type | let b:reload_ftplugin = 1 | endif
-  call xolox#reload#windows()
-  call s:restore_view(view)
-  call s:change_swapchoice(0)
-  let msg = "%s: Reloaded %s file type plug-in in %s."
-  call xolox#timer#stop(msg, s:script, a:friendly_name, a:start_time)
+function! s:reload_ftplugin(st, fn, hr) " {{{1
+  call s:reload_buffers(a:st, a:fn, a:hr, 'file type plug-in', 'b:reload_ftplugin')
 endfunction
 
-function! s:reload_syntax(start_time, filename, friendly_name) " {{{1
-  let type = fnamemodify(a:filename, ':t:r')
-  let view = s:save_view()
-  call s:change_swapchoice(1)
-  call s:reload_message('syntax highlighting', a:friendly_name)
-  silent hide bufdo if &syn == type | let b:reload_syntax = 1 | endif
-  call xolox#reload#windows()
-  call s:restore_view(view)
-  call s:change_swapchoice(0)
-  let msg = "%s: Reloaded %s syntax script in %s."
-  call xolox#timer#stop(msg, s:script, a:friendly_name, a:start_time)
+function! s:reload_syntax(st, fn, hr) " {{{1
+  call s:reload_buffers(a:st, a:fn, a:hr, 'syntax script', 'b:reload_syntax')
 endfunction
 
-function! s:reload_indent(start_time, filename, friendly_name) " {{{1
+function! s:reload_indent(st, fn, hr) " {{{1
+  call s:reload_buffers(a:st, a:fn, a:hr, 'indent script', 'b:reload_indent')
+endfunction
+
+function! s:reload_buffers(start_time, filename, friendly_name, script_type, variable)
   let type = fnamemodify(a:filename, ':t:r')
-  let view = s:save_view()
-  call s:change_swapchoice(1)
-  call s:reload_message('indentation plug-in', a:friendly_name)
-  silent hide bufdo if &ft == type | let b:reload_indent = 1 | endif
+  " Make sure we can restore the user's context after reloading!
+  let bufnr_save = bufnr('%')
+  let view_save = winsaveview()
+  " Temporarily enable the SwapExists automatic command to prevent the E325
+  " prompt from rearing its ugly head while reloading (in :bufdo below).
+  let s:reloading_buffers = 1
+  call s:reload_message(a:script_type, a:friendly_name)
+  silent hide bufdo if &ft == type | execute 'let' a:variable '= 1' | endif
   call xolox#reload#windows()
-  call s:restore_view(view)
-  call s:change_swapchoice(0)
-  let msg = "%s: Reloaded %s indent script in %s."
-  call xolox#timer#stop(msg, s:script, a:friendly_name, a:start_time)
+  " Restore the user's context.
+  silent execute 'buffer' bufnr_save
+  call winrestview(view_save)
+  " Disable the SwapExists automatic command.
+  unlet s:reloading_buffers
+  let msg = "%s: Reloaded %s %s in %s."
+  call xolox#timer#stop(msg, s:script, a:script_type, a:friendly_name, a:start_time)
+endfunction
+
+function! xolox#reload#open_readonly()
+  if exists('s:reloading_buffers')
+    let v:swapchoice = 'o'
+  endif
 endfunction
 
 function! xolox#reload#windows() " {{{1
@@ -175,26 +174,8 @@ function! s:parse_scriptnames() " {{{2
   endif
 endfunction
 
-function! s:change_swapchoice(enable) " {{{2
-  let augroup = 'PluginReloadScriptsSC'
-  if a:enable
-    execute xolox#swapchoice#change(augroup, 'e')
-  else
-    execute xolox#swapchoice#restore(augroup)
-  endif
-endfunction
-
 function! s:reload_message(scripttype, scriptname) " {{{2
   call xolox#message('%s: Reloading %s %s', s:script, a:scripttype, a:scriptname)
-endfunction
-
-function! s:save_view() " {{{2
-  return [bufnr('%'), winsaveview()]
-endfunction
-
-function! s:restore_view(view) " {{{2
-  silent execute 'buffer' a:view[0]
-  call winrestview(a:view[1])
 endfunction
 
 " vim: ts=2 sw=2 et
