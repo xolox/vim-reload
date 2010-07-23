@@ -41,8 +41,8 @@ if !exists('s:reload_script_active')
       let filename = s:unresolve_scriptname(a:filename)
       for [callback, pattern] in s:scripttypes
         if filename =~ pattern
-          let friendly_name = fnamemodify(filename, ':~')
-          call call(callback, [start_time, filename, friendly_name])
+          let args = [start_time, filename, fnamemodify(filename, ':~')]
+          call call('xolox#timer#stop', call(callback, args))
         endif
       endfor
     endif
@@ -58,29 +58,27 @@ function! s:reload_plugin(start_time, filename, friendly_name) " {{{1
     execute 'unlet' variable
   endif
   execute 'source' fnameescape(a:filename)
-  let msg = "%s: Reloaded %s plug-in in %s."
-  call xolox#timer#stop(msg, s:script, a:friendly_name, a:start_time)
+  return ["%s: Reloaded %s plug-in in %s.", s:script, a:friendly_name, a:start_time]
 endfunction
 
 if !exists('s:reload_script_active')
   function! s:reload_autoload(start_time, filename, friendly_name) " {{{1
     call s:reload_message('auto-load script', a:friendly_name)
     execute 'source' fnameescape(a:filename)
-    let msg = "%s: Reloaded %s auto-load script in %s."
-    call xolox#timer#stop(msg, s:script, a:friendly_name, a:start_time)
+    return ["%s: Reloaded %s auto-load script in %s.", s:script, a:friendly_name, a:start_time]
   endfunction
 endif
 
 function! s:reload_ftplugin(st, fn, hr) " {{{1
-  call s:reload_buffers(a:st, a:fn, a:hr, 'file type plug-in', 'b:reload_ftplugin')
+  return s:reload_buffers(a:st, a:fn, a:hr, 'file type plug-in', 'b:reload_ftplugin')
 endfunction
 
 function! s:reload_syntax(st, fn, hr) " {{{1
-  call s:reload_buffers(a:st, a:fn, a:hr, 'syntax script', 'b:reload_syntax')
+  return s:reload_buffers(a:st, a:fn, a:hr, 'syntax script', 'b:reload_syntax')
 endfunction
 
 function! s:reload_indent(st, fn, hr) " {{{1
-  call s:reload_buffers(a:st, a:fn, a:hr, 'indent script', 'b:reload_indent')
+  return s:reload_buffers(a:st, a:fn, a:hr, 'indent script', 'b:reload_indent')
 endfunction
 
 function! s:reload_buffers(start_time, filename, friendly_name, script_type, variable)
@@ -99,11 +97,10 @@ function! s:reload_buffers(start_time, filename, friendly_name, script_type, var
   call winrestview(view_save)
   " Disable the SwapExists automatic command.
   unlet s:reloading_buffers
-  let msg = "%s: Reloaded %s %s in %s."
-  call xolox#timer#stop(msg, s:script, a:script_type, a:friendly_name, a:start_time)
+  return ["%s: Reloaded %s %s in %s.", s:script, a:script_type, a:friendly_name, a:start_time]
 endfunction
 
-function! xolox#reload#open_readonly()
+function! xolox#reload#open_readonly() " {{{1
   if exists('s:reloading_buffers')
     let v:swapchoice = 'o'
   endif
@@ -140,8 +137,7 @@ function! s:reload_colors(start_time, filename, friendly_name) " {{{1
     let escaped = fnameescape(colorscheme)
     execute 'colorscheme' escaped
     execute 'doautocmd colorscheme' escaped
-    let msg = "%s: Reloaded %s color scheme in %s."
-    call xolox#timer#stop(msg, s:script, a:friendly_name, a:start_time)
+    return ["%s: Reloaded %s color scheme in %s.", s:script, a:friendly_name, a:start_time]
   endif
 endfunction
 
