@@ -72,7 +72,7 @@ Automatic commands using Vim's [:autocmd][autocmd] built-in should be defined in
 
 ## Alternatives
 
-The [ReloadScript](http://www.vim.org/scripts/script.php?script_id=1904) plug-in on [www.vim.org][vim] also supports reloading of Vim scripts, but there are a few notable differences:
+The [ReloadScript](http://www.vim.org/scripts/script.php?script_id=1904) plug-in on [Vim Online][vim] also supports reloading of Vim scripts, but there are a few notable differences:
 
  * This plug-in focuses on automatic reloading (I'm lazy) while the other one requires manual reloading;
 
@@ -82,7 +82,7 @@ The [ReloadScript](http://www.vim.org/scripts/script.php?script_id=1904) plug-in
 
 ## Contact
 
-If you have questions, bug reports, suggestions, etc. the author can be contacted at <peter@peterodding.com>. The latest version is available at <http://peterodding.com/code/vim/reload/> and <http://github.com/xolox/vim-reload>. If you like the plug-in please vote for it on [www.vim.org](http://www.vim.org/scripts/script.php?script_id=3148).
+If you have questions, bug reports, suggestions, etc. the author can be contacted at <peter@peterodding.com>. The latest version is available at <http://peterodding.com/code/vim/reload/> and <http://github.com/xolox/vim-reload>. If you like the plug-in please vote for it on [Vim Online](http://www.vim.org/scripts/script.php?script_id=3148).
 
 ## License
 

@@ -1,5 +1,5 @@
 " Vim script
-" Last Change: July 23, 2010
+" Last Change: October 14, 2010
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 
@@ -151,12 +151,12 @@ let s:loaded_scripts = {}
 
 function! s:script_sourced(filename) " {{{2
   call s:parse_scriptnames()
-  return has_key(s:loaded_scripts, resolve(a:filename))
+  return has_key(s:loaded_scripts, s:normalize_path(a:filename))
 endfunction
 
 function! s:unresolve_scriptname(filename) " {{{2
   call s:parse_scriptnames()
-  return get(s:loaded_scripts, resolve(a:filename), a:filename)
+  return get(s:loaded_scripts, s:normalize_path(a:filename), a:filename)
 endfunction
 
 function! s:parse_scriptnames() " {{{2
@@ -169,9 +169,15 @@ function! s:parse_scriptnames() " {{{2
   if len(lines) > num_loaded
     for line in lines[num_loaded : -1]
       let filename = matchstr(line, '^\s*\d\+:\s\+\zs.\+$')
-      let s:loaded_scripts[resolve(filename)] = filename
+      let s:loaded_scripts[s:normalize_path(filename)] = filename
     endfor
   endif
+endfunction
+
+function! s:normalize_path(path) " {{{2
+  let path = resolve(fnamemodify(a:path, ':p'))
+  " fnamemodify() doesn't seem to restore the original case on Windows…
+  return xolox#is_windows() ? tolower(path) : path
 endfunction
 
 function! s:reload_message(scripttype, scriptname) " {{{2
