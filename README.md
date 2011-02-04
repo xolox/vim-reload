@@ -1,18 +1,20 @@
 # Automatic reloading of Vim scripts
 
-The [reload.vim][reload] plug-in automatically reloads various types of [Vim][vim] scripts as they're being edited in Vim to give you instant feedback on the changes you make. For example while writing a Vim syntax script you can open a split window of the relevant file type and every time you [:update][update] your syntax script, [reload.vim][reload] will refresh the syntax highlighting in the split window. Automatic reloading of Vim scripts is currently supported for the following types of scripts:
+The [reload.vim][reload] plug-in automatically reloads various types of [Vim][vim] scripts as you're editing them in Vim to give you instant feedback on the changes you make. For example while writing a Vim syntax script you can open a split window of the relevant file type and every time you [:update][update] your syntax script, [reload.vim][reload] will refresh the syntax highlighting in the split window. Automatic reloading of Vim scripts is currently supported for the following types of scripts:
 
- * [Standard plug-ins](http://vimdoc.sourceforge.net/htmldoc/usr_05.html#standard-plugin) located at `~/.vim/plugin/*.vim` on UNIX, `~\_vimfiles\plugin\*.vim` on Windows;
+ * [Standard plug-ins](http://vimdoc.sourceforge.net/htmldoc/usr_05.html#standard-plugin) located in `~/.vim/plugin` on UNIX, `~\vimfiles\plugin` on Windows;
 
- * [Auto-load scripts](http://vimdoc.sourceforge.net/htmldoc/eval.html#autoload) located at `~/.vim/autoload/*.vim` on UNIX, `~\_vimfiles\autoload\*.vim` on Windows;
+ * [Auto-load scripts](http://vimdoc.sourceforge.net/htmldoc/eval.html#autoload) located in or below `~/.vim/autoload` on UNIX, `~\vimfiles\autoload` on Windows;
 
- * [File-type plug-ins](http://vimdoc.sourceforge.net/htmldoc/filetype.html#filetype-plugins) located at `~/.vim/ftplugin/*.vim` on UNIX, `~\_vimfiles\ftplugin\*.vim` on Windows;
+ * [File-type plug-ins](http://vimdoc.sourceforge.net/htmldoc/filetype.html#filetype-plugins) located in or below `~/.vim/ftplugin` on UNIX, `~\vimfiles\ftplugin` on Windows;
 
- * [Syntax highlighting scripts](http://vimdoc.sourceforge.net/htmldoc/syntax.html#syntax-highlighting) located at `~/.vim/syntax/*.vim` on UNIX, `~\_vimfiles\syntax\*.vim` on Windows;
+ * [Syntax highlighting scripts](http://vimdoc.sourceforge.net/htmldoc/syntax.html#syntax-highlighting) located in `~/.vim/syntax` on UNIX, `~\vimfiles\syntax` on Windows;
 
- * [File-type indentation plug-ins](http://vimdoc.sourceforge.net/htmldoc/usr_30.html#30.3) located at `~/.vim/indent/*.vim` on UNIX, `~\_vimfiles\indent\*.vim` on Windows;
+ * [File-type indentation plug-ins](http://vimdoc.sourceforge.net/htmldoc/usr_30.html#30.3) located in `~/.vim/indent` on UNIX, `~\vimfiles\indent` on Windows;
 
- * [Color scheme scripts](http://vimdoc.sourceforge.net/htmldoc/syntax.html#:colorscheme) located at `~/.vim/colors/*.vim` on UNIX, `~\_vimfiles\colors\*.vim` on Windows.
+ * [Color scheme scripts](http://vimdoc.sourceforge.net/htmldoc/syntax.html#:colorscheme) located in `~/.vim/colors` on UNIX, `~\vimfiles\colors` on Windows.
+
+The directories listed above are Vim's defaults but you're free to change the ['runtimepath'](http://vimdoc.sourceforge.net/htmldoc/options.html#%27runtimepath%27) and reloading will still work.
 
 Note that [vimrc scripts][vimrc] are not reloaded because that seems to cause more trouble than it's worth...
 

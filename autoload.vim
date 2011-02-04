@@ -1,5 +1,5 @@
 " Vim script
-" Last Change: October 14, 2010
+" Last Change: February 4, 2011
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 
@@ -15,7 +15,7 @@ if has('win32') || has('win64')
   let s:scripttypes = [
         \ ['s:reload_plugin', '\c[\\/]plugin[\\/].\{-}\.vim$'],
         \ ['s:reload_autoload', '\c[\\/]autoload[\\/].\{-}\.vim$'],
-        \ ['s:reload_ftplugin', '\c[\\/]ftplugin[\\/][^\\/]\+\.vim$'],
+        \ ['s:reload_ftplugin', '\c[\\/]ftplugin[\\/]\([^\\/_]\+\)\%([\\/_]\([^\\/]\+\)\)\?\.vim$'],
         \ ['s:reload_syntax', '\c[\\/]syntax[\\/][^\\/]\+\.vim$'],
         \ ['s:reload_indent', '\c[\\/]indent[\\/][^\\/]\+\.vim$'],
         \ ['s:reload_colors', '\c[\\/]colors[\\/][^\\/]\+\.vim$']]
@@ -23,7 +23,7 @@ else
   let s:scripttypes = [
         \ ['s:reload_plugin', '\C/plugin/.\{-}\.vim$'],
         \ ['s:reload_autoload', '\C/autoload/.\{-}\.vim$'],
-        \ ['s:reload_ftplugin', '\C/ftplugin/[^/]\+\.vim$'],
+        \ ['s:reload_ftplugin', '\C/ftplugin/\([^/_]\+\)\%([/_]\([^/]\+\)\)\?\.vim$'],
         \ ['s:reload_syntax', '\C/syntax/[^/]\+\.vim$'],
         \ ['s:reload_indent', '\C/indent/[^/]\+\.vim$'],
         \ ['s:reload_colors', '\C/colors/[^/]\+\.vim$']]
@@ -41,12 +41,23 @@ if !exists('s:reload_script_active')
       let filename = s:unresolve_scriptname(a:filename)
       for [callback, pattern] in s:scripttypes
         if filename =~ pattern
-          let args = [start_time, filename, fnamemodify(filename, ':~')]
+          let friendly_name = fnamemodify(filename, ':~')
+          if pattern =~ 'ftplugin'
+            " Determine include guard for generic file type plug-ins.
+            let matches = matchlist(filename, pattern)
+            if len(matches) >= 3
+              let s:include_guard = 'b:loaded_' . matches[1] . '_' . matches[2]
+              " s:reload_ftplugin() knows the 2nd argument is really a file type.
+              let filename = matches[1]
+            endif
+          endif
+          let args = [start_time, filename, friendly_name]
           let result = call(callback, args)
           if type(result) == type([])
             call call('xolox#timer#stop', result)
           endif
-          unlet result
+          unlet! result s:include_guard
+          break
         endif
       endfor
     endif
@@ -56,11 +67,7 @@ endif
 
 function! s:reload_plugin(start_time, filename, friendly_name) " {{{1
   call s:reload_message('plug-in', a:friendly_name)
-  " Clear include guard so full plug-in can be reloaded?
-  let variable = 'g:loaded_' . fnamemodify(a:filename, ':t:r')
-  if exists(variable)
-    execute 'unlet' variable
-  endif
+  unlet! g:loaded_{fnamemodify(a:filename, ':t:r')}
   execute 'source' fnameescape(a:filename)
   return ["%s: Reloaded %s plug-in in %s.", s:script, a:friendly_name, a:start_time]
 endfunction
@@ -73,20 +80,19 @@ if !exists('s:reload_script_active')
   endfunction
 endif
 
-function! s:reload_ftplugin(st, fn, hr) " {{{1
-  return s:reload_buffers(a:st, a:fn, a:hr, 'file type plug-in', 'b:reload_ftplugin')
+function! s:reload_ftplugin(st, ft, hr) " {{{1
+  return s:reload_buffers(a:st, a:ft, a:hr, 'file type plug-in', 'b:reload_ftplugin')
 endfunction
 
 function! s:reload_syntax(st, fn, hr) " {{{1
-  return s:reload_buffers(a:st, a:fn, a:hr, 'syntax script', 'b:reload_syntax')
+  return s:reload_buffers(a:st, fnamemodify(a:fn, ':t:r'), a:hr, 'syntax script', 'b:reload_syntax')
 endfunction
 
 function! s:reload_indent(st, fn, hr) " {{{1
-  return s:reload_buffers(a:st, a:fn, a:hr, 'indent script', 'b:reload_indent')
+  return s:reload_buffers(a:st, fnamemodify(a:fn, ':t:r'), a:hr, 'indent script', 'b:reload_indent')
 endfunction
 
-function! s:reload_buffers(start_time, filename, friendly_name, script_type, variable)
-  let type = fnamemodify(a:filename, ':t:r')
+function! s:reload_buffers(start_time, filetype, friendly_name, script_type, variable)
   " Make sure we can restore the user's context after reloading!
   let bufnr_save = bufnr('%')
   let view_save = winsaveview()
@@ -94,7 +100,7 @@ function! s:reload_buffers(start_time, filename, friendly_name, script_type, var
   " prompt from rearing its ugly head while reloading (in :bufdo below).
   let s:reloading_buffers = 1
   call s:reload_message(a:script_type, a:friendly_name)
-  silent hide bufdo if &ft == type | execute 'let' a:variable '= 1' | endif
+  silent hide bufdo if &ft == a:filetype | execute 'let' a:variable '= 1' | endif
   call xolox#reload#windows()
   " Restore the user's context.
   silent execute 'buffer' bufnr_save
@@ -122,6 +128,9 @@ endfunction
 function! s:reload_window()
   if exists('b:reload_ftplugin')
     unlet! b:reload_ftplugin b:did_ftplugin
+    if exists('s:include_guard') && exists(s:include_guard)
+      unlet {s:include_guard}
+    endif
     let &filetype = &filetype
   endif
   if exists('b:reload_syntax')
