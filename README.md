@@ -22,7 +22,7 @@ Note that [vimrc scripts][vimrc] are not reloaded because that seems to cause mo
 
 Unzip the most recent [ZIP archive](http://peterodding.com/code/vim/downloads/reload) file inside your Vim profile directory (usually this is `~/.vim` on UNIX and `%USERPROFILE%\vimfiles` on Windows), restart Vim and execute the command `:helptags ~/.vim/doc` (use `:helptags ~\vimfiles\doc` instead on Windows). Now try it out: Edit any Vim script that's already loaded (you can check using the [:scriptnames command][scriptnames]) and confirm that the script is reloaded when you save it (the reload.vim plug-in will print a message to confirm when a script is reloaded).
 
-Out of the box the [reload.vim][reload] plug-in is configured to automatically reload all Vim scripts that it knows how to. If you like it this way then you don't need to configure anything! However if you don't like the automatic reloading then you'll need the following:
+Out of the box the reload.vim plug-in is configured to automatically reload all Vim scripts that it knows how to. If you like it this way then you don't need to configure anything! However if you don't like the automatic reloading then you'll need the following:
 
 ### The `g:reload_on_write` option
 
@@ -93,7 +93,6 @@ This software is licensed under the [MIT license](http://en.wikipedia.org/wiki/M
 
 
 [autocmd]: http://vimdoc.sourceforge.net/htmldoc/autocmd.html#:autocmd
-[reload]: http://github.com/xolox/vim-reload/blob/master/reload.vim
 [scriptnames]: http://vimdoc.sourceforge.net/htmldoc/repeat.html#:scriptnames
 [update]: http://vimdoc.sourceforge.net/htmldoc/editing.html#:update
 [vim]: http://www.vim.org/

@@ -36,7 +36,7 @@ unlet s:cpo_save
 if !exists('s:reload_script_active')
   function! xolox#reload#script(filename) " {{{1
     let s:reload_script_active = 1
-    let start_time = xolox#timer#start()
+    let start_time = xolox#misc#timer#start()
     if s:script_sourced(a:filename)
       let filename = s:unresolve_scriptname(a:filename)
       for [callback, pattern] in s:scripttypes
@@ -54,7 +54,7 @@ if !exists('s:reload_script_active')
           let args = [start_time, filename, friendly_name]
           let result = call(callback, args)
           if type(result) == type([])
-            call call('xolox#timer#stop', result)
+            call call('xolox#misc#timer#stop', result)
           endif
           unlet! result s:include_guard
           break
@@ -186,11 +186,11 @@ endfunction
 function! s:normalize_path(path) " {{{2
   let path = resolve(fnamemodify(a:path, ':p'))
   " fnamemodify() doesn't seem to restore the original case on Windows…
-  return xolox#is_windows() ? tolower(path) : path
+  return xolox#misc#os#is_win() ? tolower(path) : path
 endfunction
 
 function! s:reload_message(scripttype, scriptname) " {{{2
-  call xolox#message('%s: Reloading %s %s', s:script, a:scripttype, a:scriptname)
+  call xolox#misc#msg#info('%s: Reloading %s %s', s:script, a:scripttype, a:scriptname)
 endfunction
 
 " vim: ts=2 sw=2 et
