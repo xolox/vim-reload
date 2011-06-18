@@ -1,9 +1,7 @@
 " Vim script
-" Last Change: February 4, 2011
+" Last Change: June 18, 2011
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
-
-let s:script = expand('<sfile>:t')
 
 " Patterns to match various types of Vim script names. {{{1
 
@@ -69,14 +67,14 @@ function! s:reload_plugin(start_time, filename, friendly_name) " {{{1
   call s:reload_message('plug-in', a:friendly_name)
   unlet! g:loaded_{fnamemodify(a:filename, ':t:r')}
   execute 'source' fnameescape(a:filename)
-  return ["%s: Reloaded %s plug-in in %s.", s:script, a:friendly_name, a:start_time]
+  return ["reload.vim %s: Reloaded %s plug-in in %s.", g:reload_version, a:friendly_name, a:start_time]
 endfunction
 
 if !exists('s:reload_script_active')
   function! s:reload_autoload(start_time, filename, friendly_name) " {{{1
     call s:reload_message('auto-load script', a:friendly_name)
     execute 'source' fnameescape(a:filename)
-    return ["%s: Reloaded %s auto-load script in %s.", s:script, a:friendly_name, a:start_time]
+    return ["reload.vim %s: Reloaded %s auto-load script in %s.", g:reload_version, a:friendly_name, a:start_time]
   endfunction
 endif
 
@@ -107,7 +105,7 @@ function! s:reload_buffers(start_time, filetype, friendly_name, script_type, var
   call winrestview(view_save)
   " Disable the SwapExists automatic command.
   unlet s:reloading_buffers
-  return ["%s: Reloaded %s %s in %s.", s:script, a:script_type, a:friendly_name, a:start_time]
+  return ["reload.vim %s: Reloaded %s %s in %s.", g:reload_version, a:script_type, a:friendly_name, a:start_time]
 endfunction
 
 function! xolox#reload#open_readonly() " {{{1
@@ -150,7 +148,7 @@ function! s:reload_colors(start_time, filename, friendly_name) " {{{1
     let escaped = fnameescape(colorscheme)
     execute 'colorscheme' escaped
     execute 'doautocmd colorscheme' escaped
-    return ["%s: Reloaded %s color scheme in %s.", s:script, a:friendly_name, a:start_time]
+    return ["reload.vim %s: Reloaded %s color scheme in %s.", g:reload_version, a:friendly_name, a:start_time]
   endif
 endfunction
 
@@ -190,7 +188,7 @@ function! s:normalize_path(path) " {{{2
 endfunction
 
 function! s:reload_message(scripttype, scriptname) " {{{2
-  call xolox#misc#msg#info('%s: Reloading %s %s', s:script, a:scripttype, a:scriptname)
+  call xolox#misc#msg#info('reload.vim %s: Reloading %s %s.', g:reload_version, a:scripttype, a:scriptname)
 endfunction
 
 " vim: ts=2 sw=2 et

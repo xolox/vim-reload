@@ -32,7 +32,7 @@ The directories listed above are Vim's defaults but you're free to change the
 Note that |vimrc| scripts are not reloaded because that seems to cause more
 trouble than it's worth...
 
-==============================================================================
+===============================================================================
                                                       *reload-install-first-use*
 Install & first use ~
 
@@ -49,9 +49,8 @@ all Vim scripts that it knows how to. If you like it this way then you don't
 need to configure anything! However if you don't like the automatic reloading
 then you'll need the following:
 
-------------------------------------------------------------------------------
-                                                      *g:reload_on_write-option*
-The 'g:reload_on_write' option ~
+-------------------------------------------------------------------------------
+The *g:reload_on_write* option
 
 If you don't like automatic reloading because it slows Vim down or causes
 problems you can add the following line to your |vimrc| script:
@@ -61,11 +60,10 @@ problems you can add the following line to your |vimrc| script:
 This disables automatic reloading which means you'll have to reload scripts
 using the command discussed below.
 
-------------------------------------------------------------------------------
-                                                         *:reloadscript-command*
-The ':ReloadScript' command ~
+-------------------------------------------------------------------------------
+The *:ReloadScript* command
 
-You can execute the ':ReloadScript' command to reload the Vim script you're
+You can execute the |:ReloadScript| command to reload the Vim script you're
 editing. If you provide a script name as argument to the command then that
 script will be reloaded instead, e.g.:
 >
@@ -75,7 +73,7 @@ If after executing this command you see Vim errors such as "Function already
 exists" (|E122|) or "Command already exists" (|E174|) then you'll need to change
 your Vim script(s) slightly to enable reloading, see below.
 
-==============================================================================
+===============================================================================
                                                  *things-that-prevent-reloading*
 Things that prevent reloading ~
 
@@ -83,7 +81,7 @@ If you want your Vim plug-ins and/or other scripts to be automatically
 reloaded they'll have to be written a certain way, though you can consider the
 following points good practice for Vim script writing anyway:
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 Use a bang in command and function definitions! ~
 
 Function and command definitions using Vim's |:command| and |:function| built-ins
@@ -100,7 +98,7 @@ complain that the command or function already exists:
     :function! MyFun()
     :endfunction
 
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
                                            *reload-use-automatic-command-groups*
 Use automatic command groups ~
 
@@ -119,7 +117,7 @@ several times:
     :  autocmd! TabEnter * echomsg "Entered tab page"
     :augroup END
 
-==============================================================================
+===============================================================================
                                                            *reload-alternatives*
 Alternatives ~
 
@@ -134,7 +132,7 @@ scripts, but there are a few notable differences:
 
  - This plug-in can more or less reload itself ;-)
 
-==============================================================================
+===============================================================================
                                                                 *reload-contact*
 Contact ~
 
@@ -143,14 +141,14 @@ contacted at peter@peterodding.com. The latest version is available at
 http://peterodding.com/code/vim/reload/ and http://github.com/xolox/vim-reload.
 If you like the plug-in please vote for it on Vim Online [3].
 
-==============================================================================
+===============================================================================
                                                                 *reload-license*
 License ~
 
 This software is licensed under the MIT license [4]. Copyright 2010 Peter
 Odding <peter@peterodding.com>.
 
-==============================================================================
+===============================================================================
                                                              *reload-references*
 References ~
 
