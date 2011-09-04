@@ -3,7 +3,7 @@
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 
-let g:xolox#reload#version = '0.6.3'
+let g:xolox#reload#version = '0.6.4'
 
 " Patterns to match various types of Vim script names. {{{1
 
