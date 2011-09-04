@@ -1,5 +1,5 @@
 " Vim script
-" Last Change: June 18, 2011
+" Last Change: September 4, 2011
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 
@@ -10,8 +10,6 @@
 if &cp || exists('g:loaded_reload')
   finish
 endif
-
-let g:reload_version = '0.6.2'
 
 if !exists('g:reload_on_write')
   let g:reload_on_write = 1

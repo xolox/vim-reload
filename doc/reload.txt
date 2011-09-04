@@ -145,7 +145,7 @@ If you like the plug-in please vote for it on Vim Online [3].
                                                                 *reload-license*
 License ~
 
-This software is licensed under the MIT license [4]. Copyright 2010 Peter
+This software is licensed under the MIT license [4]. Copyright 2011 Peter
 Odding <peter@peterodding.com>.
 
 ===============================================================================
