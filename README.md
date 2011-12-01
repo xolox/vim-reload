@@ -1,6 +1,6 @@
 # Automatic reloading of Vim scripts
 
-The [reload.vim][reload] plug-in automatically reloads various types of [Vim][vim] scripts as you're editing them in Vim to give you instant feedback on the changes you make. For example while writing a Vim syntax script you can open a split window of the relevant file type and every time you [:update][update] your syntax script, [reload.vim][reload] will refresh the syntax highlighting in the split window. Automatic reloading of Vim scripts is currently supported for the following types of scripts:
+The reload.vim plug-in automatically reloads various types of [Vim][vim] scripts as you're editing them in Vim to give you instant feedback on the changes you make. For example while writing a Vim syntax script you can open a split window of the relevant file type and every time you [:update][update] your syntax script, reload.vim will refresh the syntax highlighting in the split window. Automatic reloading of Vim scripts is currently supported for the following types of scripts:
 
  * [Standard plug-ins](http://vimdoc.sourceforge.net/htmldoc/usr_05.html#standard-plugin) located in `~/.vim/plugin` on UNIX, `~\vimfiles\plugin` on Windows;
 
