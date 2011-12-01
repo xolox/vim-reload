@@ -1,9 +1,9 @@
 " Vim script
-" Last Change: November 26, 2011
+" Last Change: December 1, 2011
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 
-let g:xolox#reload#version = '0.6.7'
+let g:xolox#reload#version = '0.6.8'
 
 " Patterns to match various types of Vim script names. {{{1
 
@@ -103,7 +103,7 @@ function! s:reload_buffers(start_time, filetype, friendly_name, script_type, var
   silent hide bufdo if &ft == a:filetype | execute 'let' a:variable '= 1' | endif
   call xolox#reload#windows()
   " Restore the user's context.
-  silent execute 'buffer' bufnr_save
+  silent execute 'hide buffer' bufnr_save
   call winrestview(view_save)
   " Disable the SwapExists automatic command.
   unlet s:reloading_buffers
