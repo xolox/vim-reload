@@ -1,5 +1,24 @@
 *reload.txt*  Automatic reloading of Vim scripts
 
+===============================================================================
+                                                               *reload-contents*
+Contents ~
+
+ 1. Introduction                                           |reload-introduction|
+ 2. Install & first use                               |reload-install-first-use|
+  1. The |g:reload_on_write| option
+  2. The |:ReloadScript| command
+ 3. Things that prevent reloading                |things-that-prevent-reloading|
+  1. Use a bang in command and function definitions!
+  2. Use automatic command groups          |reload-use-automatic-command-groups|
+ 4. Alternatives                                           |reload-alternatives|
+ 5. Contact                                                     |reload-contact|
+ 6. License                                                     |reload-license|
+
+===============================================================================
+                                                           *reload-introduction*
+Introduction ~
+
 The reload.vim plug-in automatically reloads various types of Vim scripts as
 you're editing them in Vim to give you instant feedback on the changes you
 make. For example while writing a Vim syntax script you can open a split
@@ -145,7 +164,7 @@ If you like the plug-in please vote for it on Vim Online [3].
                                                                 *reload-license*
 License ~
 
-This software is licensed under the MIT license [4]. Copyright 2011 Peter
+This software is licensed under the MIT license [4]. Copyright 2013 Peter
 Odding <peter@peterodding.com>.
 
 ===============================================================================
