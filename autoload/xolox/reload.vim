@@ -1,9 +1,9 @@
 " Vim script
-" Last Change: April 21, 2013
+" Last Change: April 28, 2013
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 
-let g:xolox#reload#version = '0.6.9'
+let g:xolox#reload#version = '0.6.10'
 
 call xolox#misc#compat#check('reload', 1)
 
