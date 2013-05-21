@@ -1,3 +1,9 @@
+" This Vim script was modified by a Python script that I use to manage the
+" inclusion of miscellaneous functions in the plug-ins that I publish to Vim
+" Online and GitHub. Please don't edit this file, instead make your changes on
+" the 'dev' branch of the git repository (thanks!). This file was generated on
+" May 21, 2013 at 03:06.
+
 " Vim script
 " Last Change: May 21, 2013
 " Author: Peter Odding
@@ -36,7 +42,7 @@ unlet s:cpo_save
 if !exists('s:reload_script_active')
   function! xolox#reload#script(filename) " {{{1
     let s:reload_script_active = 1
-    let start_time = xolox#misc#timer#start()
+    let start_time = xolox#reload#misc#timer#start()
     if s:script_sourced(a:filename)
       let filename = s:unresolve_scriptname(a:filename)
       for [callback, pattern] in s:scripttypes
@@ -54,7 +60,7 @@ if !exists('s:reload_script_active')
           let args = [start_time, filename, friendly_name]
           let result = call(callback, args)
           if type(result) == type([])
-            call call('xolox#misc#timer#stop', result)
+            call call('xolox#reload#misc#timer#stop', result)
           endif
           unlet! result s:include_guard
           break
@@ -186,11 +192,11 @@ endfunction
 function! s:normalize_path(path) " {{{2
   let path = resolve(fnamemodify(a:path, ':p'))
   " fnamemodify() doesn't seem to restore the original case on Windows…
-  return xolox#misc#os#is_win() ? tolower(path) : path
+  return xolox#reload#misc#os#is_win() ? tolower(path) : path
 endfunction
 
 function! s:reload_message(scripttype, scriptname) " {{{2
-  call xolox#misc#msg#info('reload.vim %s: Reloading %s %s.', g:xolox#reload#version, a:scripttype, a:scriptname)
+  call xolox#reload#misc#msg#info('reload.vim %s: Reloading %s %s.', g:xolox#reload#version, a:scripttype, a:scriptname)
 endfunction
 
 " vim: ts=2 sw=2 et
