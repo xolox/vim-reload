@@ -55,18 +55,27 @@ trouble than it's worth...
                                                       *reload-install-first-use*
 Install & first use ~
 
-Unzip the most recent ZIP archive [1] file inside your Vim profile directory
-(usually this is '~/.vim' on UNIX and '%USERPROFILE%\vimfiles' on Windows),
-restart Vim and execute the command ':helptags ~/.vim/doc' (use ':helptags
-~\vimfiles\doc' instead on Windows). Now try it out: Edit any Vim script
-that's already loaded (you can check using the |:scriptnames| command) and
-confirm that the script is reloaded when you save it (the reload.vim plug-in
-will print a message to confirm when a script is reloaded).
+Please note that the vim-reload plug-in requires my vim-misc plug-in which is
+separately distributed.
+
+Unzip the most recent ZIP archives of the vim-reload [1] and vim-misc [2]
+plug-ins inside your Vim profile directory (usually this is '~/.vim' on UNIX
+and '%USERPROFILE%\vimfiles' on Windows), restart Vim and execute the command
+':helptags ~/.vim/doc' (use ':helptags ~\vimfiles\doc' instead on Windows).
+
+If you prefer you can also use Pathogen [3], Vundle [4] or a similar tool to
+install & update the vim-reload [5] and vim-misc [6] plug-ins using a local
+clone of the git repository.
+
+Now try it out: Edit any Vim script that's already loaded (you can check using
+the |:scriptnames| command) and confirm that the script is reloaded when you
+save it (the reload.vim plug-in will print a message to confirm when a script
+is reloaded).
 
 Out of the box the reload.vim plug-in is configured to automatically reload
 all Vim scripts that it knows how to. If you like it this way then you don't
 need to configure anything! However if you don't like the automatic reloading
-then you'll need the following:
+then you can use the option below.
 
 -------------------------------------------------------------------------------
 The *g:reload_on_write* option
@@ -140,7 +149,7 @@ several times:
                                                            *reload-alternatives*
 Alternatives ~
 
-The ReloadScript [2] plug-in on Vim Online also supports reloading of Vim
+The ReloadScript [7] plug-in on Vim Online also supports reloading of Vim
 scripts, but there are a few notable differences:
 
  - This plug-in focuses on automatic reloading (I'm lazy) while the other one
@@ -158,22 +167,27 @@ Contact ~
 If you have questions, bug reports, suggestions, etc. the author can be
 contacted at peter@peterodding.com. The latest version is available at
 http://peterodding.com/code/vim/reload/ and http://github.com/xolox/vim-reload.
-If you like the plug-in please vote for it on Vim Online [3].
+If you like the plug-in please vote for it on Vim Online [8].
 
 ===============================================================================
                                                                 *reload-license*
 License ~
 
-This software is licensed under the MIT license [4]. ÂŠ 2013 Peter Odding
-<peter@peterodding.com>.
+This software is licensed under the MIT license [9]. Copyright 2013 Peter
+Odding <peter@peterodding.com>.
 
 ===============================================================================
                                                              *reload-references*
 References ~
 
-[1] http://peterodding.com/code/vim/downloads/reload
-[2] http://www.vim.org/scripts/script.php?script_id=1904
-[3] http://www.vim.org/scripts/script.php?script_id=3148
-[4] http://en.wikipedia.org/wiki/MIT_License
+[1] http://peterodding.com/code/vim/downloads/reload.zip
+[2] http://peterodding.com/code/vim/downloads/misc.zip
+[3] http://www.vim.org/scripts/script.php?script_id=2332
+[4] https://github.com/gmarik/vundle
+[5] http://github.com/xolox/vim-reload
+[6] http://github.com/xolox/vim-misc
+[7] http://www.vim.org/scripts/script.php?script_id=1904
+[8] http://www.vim.org/scripts/script.php?script_id=3148
+[9] http://en.wikipedia.org/wiki/MIT_License
 
 vim: ft=help
