@@ -1,9 +1,9 @@
 " Vim script
-" Last Change: May 21, 2013
+" Last Change: May 25, 2013
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 
-let g:xolox#reload#version = '0.6.15'
+let g:xolox#reload#version = '0.6.16'
 
 " Patterns to match various types of Vim script names. {{{1
 
@@ -41,7 +41,7 @@ if !exists('s:reload_script_active')
       let filename = s:unresolve_scriptname(a:filename)
       for [callback, pattern] in s:scripttypes
         if filename =~ pattern
-          let friendly_name = fnamemodify(filename, ':~')
+          let friendly_name = filename
           if pattern =~ 'ftplugin'
             " Determine include guard for generic file type plug-ins.
             let matches = matchlist(filename, pattern)
@@ -184,7 +184,7 @@ function! s:parse_scriptnames() " {{{2
 endfunction
 
 function! s:normalize_path(path) " {{{2
-  let path = resolve(fnamemodify(a:path, ':p'))
+  let path = xolox#misc#path#absolute(a:path)
   " fnamemodify() doesn't seem to restore the original case on Windows…
   return xolox#misc#os#is_win() ? tolower(path) : path
 endfunction
