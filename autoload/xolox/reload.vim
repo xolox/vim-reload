@@ -1,9 +1,9 @@
 " Vim script
-" Last Change: May 25, 2013
+" Last Change: August 19, 2013
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 
-let g:xolox#reload#version = '0.6.16'
+let g:xolox#reload#version = '0.6.17'
 
 " Patterns to match various types of Vim script names. {{{1
 

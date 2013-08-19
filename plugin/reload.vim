@@ -1,5 +1,5 @@
 " Vim script
-" Last Change: September 4, 2011
+" Last Change: August 19, 2013
 " Author: Peter Odding
 " URL: http://peterodding.com/code/vim/reload/
 
@@ -10,6 +10,19 @@
 if &cp || exists('g:loaded_reload')
   finish
 endif
+
+" Make sure vim-misc is installed.
+try
+  " The point of this code is to do something completely innocent while making
+  " sure the vim-misc plug-in is installed. We specifically don't use Vim's
+  " exists() function because it doesn't load auto-load scripts that haven't
+  " already been loaded yet (last tested on Vim 7.3).
+  call type(g:xolox#misc#version)
+catch
+  echomsg "Warning: The vim-reload plug-in requires the vim-misc plug-in which seems not to be installed! For more information please review the installation instructions in the readme (also available on the homepage and on GitHub). The vim-reload plug-in will now be disabled."
+  let g:loaded_reload = 1
+  finish
+endtry
 
 if !exists('g:reload_on_write')
   let g:reload_on_write = 1
