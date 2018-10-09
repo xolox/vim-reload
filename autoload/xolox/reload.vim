@@ -33,6 +33,10 @@ endif
 let &cpo = s:cpo_save
 unlet s:cpo_save
 
+if !exists('g:xolox#reload#short_names')
+  let g:xolox#reload#short_names = 0
+endif
+
 if !exists('s:reload_script_active')
   function! xolox#reload#script(filename) " {{{1
     let s:reload_script_active = 1
@@ -41,7 +45,11 @@ if !exists('s:reload_script_active')
       let filename = s:unresolve_scriptname(a:filename)
       for [callback, pattern] in s:scripttypes
         if filename =~ pattern
-          let friendly_name = filename
+          if g:xolox#reload#short_names
+            let friendly_name = fnamemodify(filename, ':t')
+          else
+            let friendly_name = filename
+          endif
           if pattern =~ 'ftplugin'
             " Determine include guard for generic file type plug-ins.
             let matches = matchlist(filename, pattern)
